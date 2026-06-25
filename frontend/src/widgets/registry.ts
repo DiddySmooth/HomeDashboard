@@ -2,6 +2,7 @@ import type { ComponentType } from "react";
 
 import type { Widget } from "../types";
 import { ClockWidget } from "./ClockWidget/ClockWidget";
+import { TodoWidget } from "./TodoWidget/TodoWidget";
 import { WeatherRadarWidget } from "./WeatherRadarWidget/WeatherRadarWidget";
 import { WeatherWidget } from "./WeatherWidget/WeatherWidget";
 
@@ -160,6 +161,22 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
           { label: "Temperature", value: "temp_new" },
           { label: "Wind", value: "wind_new" },
         ],
+      },
+    ],
+  },
+  todo: {
+    type: "todo",
+    name: "To Do List",
+    component: TodoWidget,
+    defaultSize: { w: 5, h: 5 },
+    minSize: { w: 3, h: 3 },
+    configFields: [
+      {
+        key: "defaultCategory",
+        label: "Default category",
+        type: "number",
+        default: 0,
+        help: "Category ID to display by default (0 = all)",
       },
     ],
   },

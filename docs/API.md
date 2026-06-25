@@ -121,6 +121,57 @@ Query params:
 
 Tiles are returned with `Cache-Control: public, max-age=600`.
 
+## Todos
+
+A todo has this shape:
+
+```json
+{
+  "id": 1,
+  "title": "Buy groceries",
+  "description": "",
+  "completed": false,
+  "due_date": "2026-06-30T00:00:00Z",
+  "category_id": 1
+}
+```
+
+### `GET /api/todos`
+List all todos, ordered by creation date (newest first).
+
+### `GET /api/todos/category/{category_id}`
+List todos in a specific category.
+
+### `POST /api/todos`
+Create a new todo. Body: `{ "title", "description", "completed", "due_date", "category_id" }` (all except `title` optional). → `201`
+
+### `PATCH /api/todos/{id}`
+Partial update. Any subset of `title, description, completed, due_date, category_id`. → `200` / `404`
+
+### `DELETE /api/todos/{id}`
+Delete a todo. → `204` / `404`
+
+## Todo Categories
+
+A category has this shape:
+
+```json
+{
+  "id": 1,
+  "name": "Shopping",
+  "color": "#6366f1"
+}
+```
+
+### `GET /api/todos/categories`
+List all todo categories.
+
+### `POST /api/todos/categories`
+Create a new category. Query params: `name` (required), `color` (optional, default `"#6366f1"`). → `201`
+
+### `DELETE /api/todos/categories/{id}`
+Delete a category. → `204` / `404`
+
 ## Configuration (env vars)
 
 The backend reads settings via the `HOMEDASH_` prefix:
