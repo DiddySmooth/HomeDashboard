@@ -1,0 +1,82 @@
+/* Base widget frame — shared chrome for every widget. */
+
+.widget-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.widget-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 10px;
+  background: var(--surface-hover);
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--text-muted);
+  cursor: move;
+}
+
+.widget-title {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.widget-actions {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.widget-body {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  min-height: 0;
+}
+
+/* Fallback shown when a widget type is not in the registry. */
+.widget-unknown {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
+}
+
+/* react-grid-layout drag placeholder. */
+.react-grid-item.react-grid-placeholder {
+  background: var(--accent);
+  opacity: 0.2;
+  border-radius: 12px;
+}
+
+/* Replace the faint default resize handle with a clear accent corner grip.
+   Only present in edit mode (isResizable is bound to the editing flag).
+   Selector is scoped to the grid item to outrank react-resizable's own
+   stylesheet, which loads after this file at equal base specificity. */
+.react-grid-item > .react-resizable-handle {
+  background-image: none;
+  width: 26px;
+  height: 26px;
+}
+
+.react-grid-item > .react-resizable-handle::after {
+  content: "";
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  width: 11px;
+  height: 11px;
+  border-right: 3px solid var(--accent);
+  border-bottom: 3px solid var(--accent);
+  border-bottom-right-radius: 3px;
+}

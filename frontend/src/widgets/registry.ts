@@ -1,7 +1,9 @@
 import type { ComponentType } from "react";
 
 import type { Widget } from "../types";
-import { ClockWidget } from "./ClockWidget";
+import { ClockWidget } from "./ClockWidget/ClockWidget";
+import { WeatherRadarWidget } from "./WeatherRadarWidget/WeatherRadarWidget";
+import { WeatherWidget } from "./WeatherWidget/WeatherWidget";
 
 /** Props every widget component receives. */
 export interface WidgetProps {
@@ -68,6 +70,97 @@ export const WIDGET_REGISTRY: Record<string, WidgetDefinition> = {
       },
       { key: "showSeconds", label: "Show seconds", type: "boolean", default: true },
       { key: "showDate", label: "Show date", type: "boolean", default: true },
+    ],
+  },
+  weather: {
+    type: "weather",
+    name: "Weather",
+    component: WeatherWidget,
+    defaultSize: { w: 4, h: 4 },
+    minSize: { w: 3, h: 3 },
+    configFields: [
+      {
+        key: "location",
+        label: "Location",
+        type: "text",
+        default: "",
+        help: "City name, e.g. Seattle",
+      },
+      {
+        key: "units",
+        label: "Units",
+        type: "select",
+        default: "metric",
+        options: [
+          { label: "Metric (°C)", value: "metric" },
+          { label: "Imperial (°F)", value: "imperial" },
+        ],
+      },
+      {
+        key: "showForecast",
+        label: "Show forecast",
+        type: "boolean",
+        default: true,
+      },
+      {
+        key: "provider",
+        label: "Weather provider",
+        type: "select",
+        default: "open-meteo",
+        options: [
+          { label: "Open-Meteo (no key needed)", value: "open-meteo" },
+          { label: "OpenWeatherMap", value: "openweathermap" },
+        ],
+      },
+      {
+        key: "owmApiKey",
+        label: "OpenWeatherMap API key",
+        type: "text",
+        default: "",
+        help: "Required for OpenWeatherMap. Free at openweathermap.org/api",
+      },
+    ],
+  },
+  radar: {
+    type: "radar",
+    name: "Weather Radar",
+    component: WeatherRadarWidget,
+    defaultSize: { w: 6, h: 6 },
+    minSize: { w: 4, h: 4 },
+    configFields: [
+      {
+        key: "location",
+        label: "Location",
+        type: "text",
+        default: "",
+        help: "City name for map center, e.g. Austin",
+      },
+      {
+        key: "owmApiKey",
+        label: "OpenWeatherMap API key",
+        type: "text",
+        default: "",
+        help: "Required. Free at openweathermap.org/api",
+      },
+      {
+        key: "zoom",
+        label: "Zoom level",
+        type: "number",
+        default: 8,
+        help: "Map zoom (1–18, higher = closer)",
+      },
+      {
+        key: "layer",
+        label: "Map layer",
+        type: "select",
+        default: "precipitation_new",
+        options: [
+          { label: "Precipitation", value: "precipitation_new" },
+          { label: "Clouds", value: "clouds_new" },
+          { label: "Temperature", value: "temp_new" },
+          { label: "Wind", value: "wind_new" },
+        ],
+      },
     ],
   },
 };

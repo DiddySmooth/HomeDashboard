@@ -5,8 +5,8 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from .config import settings
 from .database import init_db
-from .routers import settings as settings_router
-from .routers import widgets
+from .routers import radar, settings as settings_router
+from .routers import weather, widgets
 
 
 @asynccontextmanager
@@ -27,6 +27,8 @@ app.add_middleware(
 
 app.include_router(widgets.router)
 app.include_router(settings_router.router)
+app.include_router(weather.router)
+app.include_router(radar.router)
 
 
 @app.get("/api/health")

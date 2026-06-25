@@ -7,13 +7,15 @@ or the *arr apps.
 
 ## Status
 
-Early development. **Phases 1–2 complete:**
+Early development. **Phases 1–3 complete:**
 
 - React + Vite (TypeScript) frontend with a drag-and-drop widget grid
 - FastAPI backend with SQLite persistence for widgets and settings
-- Working **Clock & Date** widget
+- Widgets: **Clock & Date**, **Weather** (Open-Meteo or OpenWeatherMap), and
+  **Weather Radar** (OWM precipitation/cloud/temp/wind map tiles via Leaflet)
 - **Declarative widget config system** — widgets declare their options and get an
   auto-generated config form (no per-widget form code)
+- Shared `Button` component + global design tokens (colors, typography, radii)
 - Floating gear menu, edit mode with visible resize grips, loading/error states
 - Docker Compose packaging
 
@@ -97,8 +99,8 @@ docker-compose.yml
 ## Roadmap
 
 - [x] Phase 1: Project scaffold
-- [ ] Phase 2: Widget system polish
-- [ ] Phase 3: Weather widget
+- [x] Phase 2: Widget system polish
+- [x] Phase 3: Weather widget
 - [ ] Phase 4: Calendar widget
 - [ ] Phase 5: Settings & packaging polish
 - [ ] Phase 6+: Home Assistant integration & device controls

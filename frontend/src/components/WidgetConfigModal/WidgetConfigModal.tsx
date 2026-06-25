@@ -1,7 +1,10 @@
 import { useState } from "react";
 
-import type { Widget } from "../types";
-import { WIDGET_REGISTRY, type ConfigField } from "./registry";
+import type { Widget } from "../../types";
+import { WIDGET_REGISTRY, type ConfigField } from "../../widgets/registry";
+import { Button } from "../Button/Button";
+
+import "./WidgetConfigModal.css";
 
 interface Props {
   widget: Widget;
@@ -30,9 +33,9 @@ export function WidgetConfigModal({ widget, onSave, onClose }: Props) {
       <div className="modal" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
           <h2>Configure {def?.name ?? widget.type}</h2>
-          <button className="widget-remove" onClick={onClose}>
+          <Button variant="ghost" size="sm" iconOnly onClick={onClose}>
             ✕
-          </button>
+          </Button>
         </div>
 
         <div className="modal-body">
@@ -50,10 +53,10 @@ export function WidgetConfigModal({ widget, onSave, onClose }: Props) {
         </div>
 
         <div className="modal-footer">
-          <button onClick={onClose}>Cancel</button>
-          <button className="primary" onClick={() => onSave(draft)}>
+          <Button onClick={onClose}>Cancel</Button>
+          <Button variant="primary" onClick={() => onSave(draft)}>
             Save
-          </button>
+          </Button>
         </div>
       </div>
     </div>

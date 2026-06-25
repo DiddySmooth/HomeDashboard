@@ -73,10 +73,17 @@ Browser (wall screen)  →  Vite React App (served by container)
 - [x] Loading/error states, per-widget min size, unknown-widget fallback
 - [x] Per-machine dev proxy override via gitignored `.env.local` (loadEnv)
 
-### Phase 3: Weather Widget
-- Weather API integration (OpenWeatherMap or similar)
-- Current conditions + multi-day forecast display
-- Settings UI for location / API key
+### Phase 3: Weather Widget ✅ DONE
+- [x] Weather API integration via **Open-Meteo** (free, no API key) through a
+  backend proxy route with in-memory caching
+- [x] Current conditions (temp, feels-like, humidity, wind) + 4-day forecast
+- [x] Config: location + units (metric/imperial) + show-forecast toggle
+- [x] Loading / error / unconfigured states + auto-refresh (10 min)
+- [x] Establishes the data-fetching widget pattern (see docs/ADDING_WIDGETS.md)
+- [x] **Multi-provider support** — per-widget choice between Open-Meteo and
+  OpenWeatherMap (OWM requires a free API key, entered in widget config)
+- [x] **Weather Radar widget** — Leaflet map with OWM precipitation/cloud/temp/wind
+  tile overlay, dark-themed base map, configurable zoom and layer
 
 ### Phase 4: Calendar Widget
 - Google Calendar API integration

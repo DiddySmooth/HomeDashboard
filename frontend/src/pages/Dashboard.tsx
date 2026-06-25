@@ -9,7 +9,9 @@ import {
   defaultConfig,
   widgetDefinitions,
 } from "../widgets/registry";
-import { WidgetConfigModal } from "../widgets/WidgetConfigModal";
+import { Button } from "../components/Button/Button";
+import { WidgetCard } from "../components/WidgetCard/WidgetCard";
+import { WidgetConfigModal } from "../components/WidgetConfigModal/WidgetConfigModal";
 
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
@@ -117,13 +119,15 @@ export function Dashboard() {
           provides the Done control instead). */}
       {!editing && (
         <div className="corner-controls">
-          <button
-            className="icon-button"
+          <Button
+            variant="ghost"
+            iconOnly
+            className="corner-gear"
             title="Menu"
             onClick={() => setMenuOpen((o) => !o)}
           >
             ⚙
-          </button>
+          </Button>
           {menuOpen && (
             <>
               <div className="menu-backdrop" onClick={() => setMenuOpen(false)} />
@@ -148,9 +152,14 @@ export function Dashboard() {
       {error && (
         <div className="error-banner">
           <span>{error}</span>
-          <button className="widget-remove" onClick={() => setError(null)}>
+          <Button
+            variant="ghost"
+            size="sm"
+            iconOnly
+            onClick={() => setError(null)}
+          >
             ✕
-          </button>
+          </Button>
         </div>
       )}
 
@@ -158,13 +167,22 @@ export function Dashboard() {
         <div className="add-bar">
           <span>Add widget:</span>
           {widgetDefinitions.map((def) => (
-            <button key={def.type} onClick={() => addWidget(def.type)}>
+            <Button
+              key={def.type}
+              size="sm"
+              onClick={() => addWidget(def.type)}
+            >
               + {def.name}
-            </button>
+            </Button>
           ))}
-          <button className="primary done-button" onClick={() => setEditing(false)}>
+          <Button
+            variant="primary"
+            size="sm"
+            className="done-button"
+            onClick={() => setEditing(false)}
+          >
             Done
-          </button>
+          </Button>
         </div>
       )}
 
@@ -175,7 +193,7 @@ export function Dashboard() {
       ) : widgets.length === 0 ? (
         <div className="empty-state">
           <p>No widgets yet.</p>
-          <button onClick={() => setEditing(true)}>Add your first widget</button>
+          <Button onClick={() => setEditing(true)}>Add your first widget</Button>
         </div>
       ) : (
         <GridLayout
@@ -193,43 +211,24 @@ export function Dashboard() {
             const def = WIDGET_REGISTRY[widget.type];
             const Body = def?.component;
             return (
-              <div key={String(widget.id)} className="widget-card">
-                {editing && (
-                  <div className="widget-header">
-                    <span>{def?.name ?? widget.type}</span>
-                    <div className="widget-actions">
-                      {def?.configFields?.length ? (
-                        <button
-                          className="widget-config"
-                          title="Configure"
-                          onMouseDown={(e) => e.stopPropagation()}
-                          onClick={() => setConfiguring(widget)}
-                        >
-                          ⚙
-                        </button>
-                      ) : null}
-                      <button
-                        className="widget-remove"
-                        title="Remove"
-                        onMouseDown={(e) => e.stopPropagation()}
-                        onClick={() => removeWidget(widget.id)}
-                      >
-                        ✕
-                      </button>
-                    </div>
-                  </div>
-                )}
-                <div className="widget-body">
-                  {Body ? (
+              <WidgetCard
+                key={String(widget.id)}
+                title={def?.name ?? widget.type}
+                editing={editing}
+                hasConfig={Boolean(def?.configFields?.length)}
+                onConfigure={() => setConfiguring(widget)}
+                onRemove={() => removeWidget(widget.id)}
+                body={
+                  Body ? (
                     <Body widget={widget} />
                   ) : (
                     <div className="widget-unknown">
                       <strong>Unknown widget</strong>
                       <span className="muted">type: {widget.type}</span>
                     </div>
-                  )}
-                </div>
-              </div>
+                  )
+                }
+              />
             );
           })}
         </GridLayout>

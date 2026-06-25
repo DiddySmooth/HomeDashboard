@@ -1,4 +1,4 @@
-import type { LayoutItem, Widget, WidgetCreate } from "../types";
+import type { LayoutItem, Weather, Widget, WidgetCreate } from "../types";
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const res = await fetch(`/api${path}`, {
@@ -6,7 +6,15 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
     ...init,
   });
   if (!res.ok) {
-    throw new Error(`API ${path} failed: ${res.status} ${res.statusText}`);
+    // Surface the backend's error detail when present (FastAPI sends `detail`).
+    let detail = res.statusText;
+    try {
+      const body = await res.json();
+      if (body?.detail) detail = body.detail;
+    } catch {
+      /* response had no JSON body */
+    }
+    throw new Error(detail);
   }
   if (res.status === 204) return undefined as T;
   return res.json() as Promise<T>;
@@ -43,4 +51,16 @@ export const api = {
       method: "PUT",
       body: JSON.stringify({ value }),
     }),
+
+  getWeather: (
+    location: string,
+    units: string,
+    provider = "open-meteo",
+    apiKey = "",
+  ) => {
+    let url = `/weather?location=${encodeURIComponent(location)}&units=${encodeURIComponent(units)}`;
+    url += `&provider=${encodeURIComponent(provider)}`;
+    if (apiKey) url += `&api_key=${encodeURIComponent(apiKey)}`;
+    return request<Weather>(url);
+  },
 };

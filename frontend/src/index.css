@@ -1,4 +1,5 @@
 :root {
+  /* Color palette */
   --bg: #0f1419;
   --surface: #1a2029;
   --surface-hover: #232b36;
@@ -6,6 +7,28 @@
   --text: #e6edf3;
   --text-muted: #8b97a5;
   --accent: #4f9cf9;
+  --accent-contrast: #08203f; /* text/icons on accent backgrounds */
+
+  /* Feedback colors */
+  --danger-bg: #3a1f24;
+  --danger-border: #7a2e38;
+  --danger-text: #ffb3bd;
+
+  /* Typography */
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --text-xs: 12px;
+  --text-sm: 13px;
+  --text-base: 14px;
+  --text-lg: 16px;
+  --text-xl: 20px;
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+
+  /* Radii */
+  --radius-sm: 6px;
+  --radius: 8px;
+  --radius-lg: 12px;
 }
 
 * {
@@ -22,7 +45,8 @@ body,
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
 }
 
 .toolbar {
@@ -33,7 +57,7 @@ body {
 }
 
 .toolbar h1 {
-  font-size: 20px;
+  font-size: var(--text-xl);
   margin: 0;
 }
 
@@ -42,20 +66,21 @@ body {
   gap: 8px;
 }
 
-button,
+/* A link styled like a secondary button. */
 .button-link {
+  display: inline-flex;
+  align-items: center;
   background: var(--surface);
   color: var(--text);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: var(--radius);
   padding: 8px 14px;
-  font-size: 14px;
-  cursor: pointer;
+  font-size: var(--text-base);
   text-decoration: none;
+  cursor: pointer;
   transition: background 0.15s;
 }
 
-button:hover,
 .button-link:hover {
   background: var(--surface-hover);
 }
@@ -68,20 +93,15 @@ button:hover,
   z-index: 50;
 }
 
-.icon-button {
+.corner-gear {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  padding: 0;
-  opacity: 0.55;
-  transition: opacity 0.15s, background 0.15s;
+  font-size: var(--text-lg);
+  opacity: 0.6;
 }
 
-.icon-button:hover {
+.corner-gear:hover {
   opacity: 1;
 }
 
@@ -101,7 +121,7 @@ button:hover,
   min-width: 150px;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: var(--radius-lg);
   padding: 6px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
 }
@@ -110,12 +130,12 @@ button:hover,
 .menu a {
   background: transparent;
   border: none;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   text-align: left;
   padding: 9px 12px;
   color: var(--text);
   text-decoration: none;
-  font-size: 14px;
+  font-size: var(--text-base);
   cursor: pointer;
 }
 
@@ -138,7 +158,7 @@ button:hover,
 
 .add-bar span {
   color: var(--text-muted);
-  font-size: 14px;
+  font-size: var(--text-base);
 }
 
 .empty-state {
@@ -150,47 +170,6 @@ button:hover,
   color: var(--text-muted);
 }
 
-.widget-card {
-  display: flex;
-  flex-direction: column;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-.widget-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 6px 10px;
-  background: var(--surface-hover);
-  border-bottom: 1px solid var(--border);
-  font-size: 12px;
-  color: var(--text-muted);
-  cursor: move;
-}
-
-.widget-actions {
-  display: flex;
-  gap: 4px;
-}
-
-.widget-remove,
-.widget-config {
-  padding: 2px 6px;
-  font-size: 12px;
-  line-height: 1;
-}
-
-.widget-unknown {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  text-align: center;
-}
-
 /* Error banner */
 .error-banner {
   display: flex;
@@ -199,116 +178,11 @@ button:hover,
   gap: 12px;
   margin: 0 24px 12px;
   padding: 10px 14px;
-  background: #3a1f24;
-  border: 1px solid #7a2e38;
-  border-radius: 8px;
-  color: #ffb3bd;
-  font-size: 14px;
-}
-
-/* Modal */
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 100;
-}
-
-.modal {
-  width: min(420px, 92vw);
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-.modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 14px 18px;
-  border-bottom: 1px solid var(--border);
-}
-
-.modal-header h2 {
-  margin: 0;
-  font-size: 16px;
-}
-
-.modal-body {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  padding: 18px;
-}
-
-.modal-footer {
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-  padding: 14px 18px;
-  border-top: 1px solid var(--border);
-}
-
-button.primary {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #08203f;
-  font-weight: 600;
-}
-
-.field {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  font-size: 14px;
-}
-
-.field-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 14px;
-  cursor: pointer;
-}
-
-.field input[type="text"],
-.field input[type="number"] {
-  background: var(--bg);
-  color: var(--text);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 8px;
-}
-
-.widget-body {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 12px;
-  min-height: 0;
-}
-
-/* Clock widget */
-.clock-widget {
-  text-align: center;
-}
-
-.clock-time {
-  font-size: clamp(28px, 6vw, 64px);
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
-  line-height: 1.1;
-}
-
-.clock-date {
-  margin-top: 8px;
-  color: var(--text-muted);
-  font-size: clamp(13px, 1.5vw, 18px);
+  background: var(--danger-bg);
+  border: 1px solid var(--danger-border);
+  border-radius: var(--radius);
+  color: var(--danger-text);
+  font-size: var(--text-base);
 }
 
 /* Settings */
@@ -320,14 +194,14 @@ button.primary {
 .settings-section {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   padding: 20px 24px;
   margin: 16px 24px;
 }
 
 .settings-section h2 {
   margin-top: 0;
-  font-size: 16px;
+  font-size: var(--text-lg);
 }
 
 .settings-section label {
@@ -335,14 +209,14 @@ button.primary {
   flex-direction: column;
   gap: 6px;
   max-width: 240px;
-  font-size: 14px;
+  font-size: var(--text-base);
 }
 
 select {
   background: var(--bg);
   color: var(--text);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: var(--radius);
   padding: 8px;
 }
 
@@ -350,39 +224,10 @@ select {
   display: inline-block;
   margin-top: 10px;
   color: var(--accent);
-  font-size: 13px;
+  font-size: var(--text-sm);
 }
 
 .muted {
   color: var(--text-muted);
-  font-size: 14px;
-}
-
-/* react-grid-layout placeholder */
-.react-grid-item.react-grid-placeholder {
-  background: var(--accent);
-  opacity: 0.2;
-  border-radius: 12px;
-}
-
-/* Replace the faint default resize handle with a clear accent corner grip.
-   Only present in edit mode (isResizable is bound to the editing flag).
-   Selector is scoped to the grid item to outrank react-resizable's own
-   stylesheet, which loads after this file at equal base specificity. */
-.react-grid-item > .react-resizable-handle {
-  background-image: none;
-  width: 26px;
-  height: 26px;
-}
-
-.react-grid-item > .react-resizable-handle::after {
-  content: "";
-  position: absolute;
-  right: 6px;
-  bottom: 6px;
-  width: 11px;
-  height: 11px;
-  border-right: 3px solid var(--accent);
-  border-bottom: 3px solid var(--accent);
-  border-bottom-right-radius: 3px;
+  font-size: var(--text-base);
 }

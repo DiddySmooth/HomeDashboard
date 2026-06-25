@@ -88,5 +88,15 @@ when you add new fields.
 Widgets that need external data (weather, calendar, …) should call the backend
 rather than third-party APIs directly. Add a backend route under
 `backend/app/routers/` that proxies the upstream API, so secrets stay server-side
-and the browser only ever talks to `/api/*`. (Pattern to be established with the
-Weather widget.)
+and the browser only ever talks to `/api/*`.
+
+The **Weather widget** is the reference example of this pattern:
+
+- Backend route [`backend/app/routers/weather.py`](../backend/app/routers/weather.py)
+  proxies Open-Meteo, normalizes the response, and caches results in-memory
+  (10-minute TTL) to respect upstream rate limits.
+- A typed method is added to the frontend API client
+  (`api.getWeather(...)` in [`frontend/src/api/client.ts`](../frontend/src/api/client.ts)).
+- The component reads its config (`location`, `units`), fetches on mount + on
+  config change, auto-refreshes on an interval, and renders loading / error /
+  unconfigured states.

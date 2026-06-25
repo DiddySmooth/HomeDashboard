@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 
-import type { WidgetProps } from "./registry";
+import type { WidgetProps } from "../registry";
+
+import "./ClockWidget.css";
 
 export function ClockWidget({ widget }: WidgetProps) {
   const [now, setNow] = useState(() => new Date());
