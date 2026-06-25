@@ -1,27 +1,13 @@
 import { useEffect, useState } from "react";
+
+import { api } from "../../api/client";
+import type { Todo, TodoCategory } from "../../types";
 import type { WidgetProps } from "../registry";
 import "./TodoWidget.css";
 
-interface Todo {
-  id: number;
-  title: string;
-  description: string;
-  completed: boolean;
-  due_date: string | null;
-  category_id: number | null;
-}
-
-interface Category {
-  id: number;
-  name: string;
-  color: string;
-}
-
-const API_BASE = import.meta.env.VITE_API_TARGET || "http://localhost:8011";
-
 export function TodoWidget({ widget }: WidgetProps) {
   const [todos, setTodos] = useState<Todo[]>([]);
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [categories, setCategories] = useState<TodoCategory[]>([]);
   const [newTitle, setNewTitle] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
@@ -37,15 +23,10 @@ export function TodoWidget({ widget }: WidgetProps) {
   const fetchData = async () => {
     try {
       setLoading(true);
-      const [todosRes, catsRes] = await Promise.all([
-        fetch(`${API_BASE}/api/todos`),
-        fetch(`${API_BASE}/api/todos/categories`),
+      const [todosData, catsData] = await Promise.all([
+        api.listTodos(),
+        api.listTodoCategories(),
       ]);
-
-      if (!todosRes.ok || !catsRes.ok) throw new Error("Failed to fetch data");
-
-      const todosData = await todosRes.json();
-      const catsData = await catsRes.json();
 
       setTodos(todosData);
       setCategories(catsData);
@@ -61,21 +42,14 @@ export function TodoWidget({ widget }: WidgetProps) {
     if (!newTitle.trim()) return;
 
     try {
-      const res = await fetch(`${API_BASE}/api/todos`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          title: newTitle,
-          description: "",
-          completed: false,
-          due_date: null,
-          category_id: selectedCategory,
-        }),
+      const newTodo = await api.createTodo({
+        title: newTitle,
+        description: "",
+        completed: false,
+        due_date: null,
+        category_id: selectedCategory,
       });
 
-      if (!res.ok) throw new Error("Failed to add todo");
-
-      const newTodo = await res.json();
       setTodos([newTodo, ...todos]);
       setNewTitle("");
     } catch (err) {
@@ -85,15 +59,7 @@ export function TodoWidget({ widget }: WidgetProps) {
 
   const toggleTodo = async (id: number, completed: boolean) => {
     try {
-      const res = await fetch(`${API_BASE}/api/todos/${id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ completed: !completed }),
-      });
-
-      if (!res.ok) throw new Error("Failed to update todo");
-
-      const updated = await res.json();
+      const updated = await api.updateTodo(id, { completed: !completed });
       setTodos(todos.map((t) => (t.id === id ? updated : t)));
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to update todo");
@@ -102,12 +68,7 @@ export function TodoWidget({ widget }: WidgetProps) {
 
   const deleteTodo = async (id: number) => {
     try {
-      const res = await fetch(`${API_BASE}/api/todos/${id}`, {
-        method: "DELETE",
-      });
-
-      if (!res.ok) throw new Error("Failed to delete todo");
-
+      await api.deleteTodo(id);
       setTodos(todos.filter((t) => t.id !== id));
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to delete todo");

@@ -42,3 +42,18 @@ export interface Weather {
   current: WeatherCurrent;
   daily: WeatherDaily[];
 }
+
+export interface Todo {
+  id: number;
+  title: string;
+  description: string;
+  completed: boolean;
+  due_date: string | null;
+  category_id: number | null;
+}
+
+export interface TodoCategory {
+  id: number;
+  name: string;
+  color: string;
+}

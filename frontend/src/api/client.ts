@@ -1,4 +1,4 @@
-import type { LayoutItem, Weather, Widget, WidgetCreate } from "../types";
+import type { LayoutItem, Todo, TodoCategory, Weather, Widget, WidgetCreate } from "../types";
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const res = await fetch(`/api${path}`, {
@@ -63,4 +63,34 @@ export const api = {
     if (apiKey) url += `&api_key=${encodeURIComponent(apiKey)}`;
     return request<Weather>(url);
   },
+
+  listTodos: () => request<Todo[]>("/todos"),
+
+  listTodosByCategory: (categoryId: number) =>
+    request<Todo[]>(`/todos/category/${categoryId}`),
+
+  createTodo: (todo: Omit<Todo, "id">) =>
+    request<Todo>("/todos", {
+      method: "POST",
+      body: JSON.stringify(todo),
+    }),
+
+  updateTodo: (id: number, patch: Partial<Omit<Todo, "id">>) =>
+    request<Todo>(`/todos/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify(patch),
+    }),
+
+  deleteTodo: (id: number) =>
+    request<void>(`/todos/${id}`, { method: "DELETE" }),
+
+  listTodoCategories: () => request<TodoCategory[]>("/todos/categories"),
+
+  createTodoCategory: (name: string, color = "#6366f1") =>
+    request<TodoCategory>(`/todos/categories?name=${encodeURIComponent(name)}&color=${encodeURIComponent(color)}`, {
+      method: "POST",
+    }),
+
+  deleteTodoCategory: (id: number) =>
+    request<void>(`/todos/categories/${id}`, { method: "DELETE" }),
 };
