@@ -1,0 +1,27 @@
+services:
+  backend:
+    build: ./backend
+    restart: unless-stopped
+    volumes:
+      - ./data:/data
+    environment:
+      HOMEDASH_DATA_DIR: /data
+    expose:
+      - "8000"
+    healthcheck:
+      # python:slim has no curl/wget, so probe with the stdlib.
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/health')"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
+
+  frontend:
+    build: ./frontend
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      # Host port 8090 (8080 is commonly taken by other self-hosted apps).
+      - "8090:80"
