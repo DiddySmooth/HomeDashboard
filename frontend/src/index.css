@@ -1,0 +1,233 @@
+:root {
+  /* Color palette */
+  --bg: #0f1419;
+  --surface: #1a2029;
+  --surface-hover: #232b36;
+  --border: #2d3743;
+  --text: #e6edf3;
+  --text-muted: #8b97a5;
+  --accent: #4f9cf9;
+  --accent-contrast: #08203f; /* text/icons on accent backgrounds */
+
+  /* Feedback colors */
+  --danger-bg: #3a1f24;
+  --danger-border: #7a2e38;
+  --danger-text: #ffb3bd;
+
+  /* Typography */
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --text-xs: 12px;
+  --text-sm: 13px;
+  --text-base: 14px;
+  --text-lg: 16px;
+  --text-xl: 20px;
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+
+  /* Radii */
+  --radius-sm: 6px;
+  --radius: 8px;
+  --radius-lg: 12px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+}
+
+.toolbar h1 {
+  font-size: var(--text-xl);
+  margin: 0;
+}
+
+.toolbar-actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* A link styled like a secondary button. */
+.button-link {
+  display: inline-flex;
+  align-items: center;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 8px 14px;
+  font-size: var(--text-base);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.button-link:hover {
+  background: var(--surface-hover);
+}
+
+/* Floating gear menu (top-right corner) */
+.corner-controls {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  z-index: 50;
+}
+
+.corner-gear {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: var(--text-lg);
+  opacity: 0.6;
+}
+
+.corner-gear:hover {
+  opacity: 1;
+}
+
+.menu-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+}
+
+.menu {
+  position: absolute;
+  top: 48px;
+  right: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  min-width: 150px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 6px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.menu button,
+.menu a {
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  text-align: left;
+  padding: 9px 12px;
+  color: var(--text);
+  text-decoration: none;
+  font-size: var(--text-base);
+  cursor: pointer;
+}
+
+.menu button:hover,
+.menu a:hover {
+  background: var(--surface-hover);
+}
+
+.add-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 24px 12px;
+  flex-wrap: wrap;
+}
+
+.add-bar .done-button {
+  margin-left: auto;
+}
+
+.add-bar span {
+  color: var(--text-muted);
+  font-size: var(--text-base);
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin-top: 15vh;
+  color: var(--text-muted);
+}
+
+/* Error banner */
+.error-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 24px 12px;
+  padding: 10px 14px;
+  background: var(--danger-bg);
+  border: 1px solid var(--danger-border);
+  border-radius: var(--radius);
+  color: var(--danger-text);
+  font-size: var(--text-base);
+}
+
+/* Settings */
+.settings-page {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.settings-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px 24px;
+  margin: 16px 24px;
+}
+
+.settings-section h2 {
+  margin-top: 0;
+  font-size: var(--text-lg);
+}
+
+.settings-section label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 240px;
+  font-size: var(--text-base);
+}
+
+select {
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 8px;
+}
+
+.saved-hint {
+  display: inline-block;
+  margin-top: 10px;
+  color: var(--accent);
+  font-size: var(--text-sm);
+}
+
+.muted {
+  color: var(--text-muted);
+  font-size: var(--text-base);
+}

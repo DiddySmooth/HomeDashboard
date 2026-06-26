@@ -1,0 +1,114 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--font-medium);
+  line-height: 1;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  cursor: pointer;
+  text-decoration: none;
+  /* Microinteractions: ease most properties, but snap the press (transform)
+     faster so it feels responsive. */
+  transition: background 0.15s ease, border-color 0.15s ease,
+    opacity 0.15s ease, filter 0.15s ease, box-shadow 0.15s ease,
+    transform 0.08s ease;
+}
+
+/* Subtle lift on hover. */
+.btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+/* Press down when active. */
+.btn:active:not(:disabled) {
+  transform: translateY(0) scale(0.97);
+}
+
+/* Accessible focus ring (keyboard only). */
+.btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--accent);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Respect users who prefer less motion. */
+@media (prefers-reduced-motion: reduce) {
+  .btn {
+    transition: background 0.15s ease, border-color 0.15s ease,
+      opacity 0.15s ease, filter 0.15s ease;
+  }
+
+  .btn:hover:not(:disabled),
+  .btn:active:not(:disabled) {
+    transform: none;
+  }
+}
+
+/* Sizes */
+.btn-md {
+  padding: 8px 14px;
+}
+
+.btn-sm {
+  padding: 4px 8px;
+  font-size: var(--text-sm);
+}
+
+/* Icon-only (square) */
+.btn-icon {
+  padding: 0;
+}
+
+.btn-icon.btn-md {
+  width: 36px;
+  height: 36px;
+}
+
+.btn-icon.btn-sm {
+  width: 24px;
+  height: 24px;
+}
+
+/* Variants */
+.btn-secondary {
+  background: var(--surface);
+  color: var(--text);
+  border-color: var(--border);
+}
+.btn-secondary:hover {
+  background: var(--surface-hover);
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: var(--accent-contrast);
+  border-color: var(--accent);
+  font-weight: var(--font-semibold);
+}
+.btn-primary:hover {
+  filter: brightness(1.08);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text);
+}
+.btn-ghost:hover {
+  background: var(--surface-hover);
+}
+
+.btn-danger {
+  background: transparent;
+  color: var(--danger-text);
+}
+.btn-danger:hover {
+  background: var(--surface-hover);
+}

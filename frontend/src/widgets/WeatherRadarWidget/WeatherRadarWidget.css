@@ -1,0 +1,27 @@
+.radar-widget {
+  width: 100%;
+  height: 100%;
+}
+
+.radar-map {
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.radar-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--text-muted);
+}
+
+.radar-icon {
+  font-size: clamp(24px, 3vw, 36px);
+}
+
+/* Override Leaflet's default background for dark theme */
+.radar-map .leaflet-container {
+  background: var(--bg);
+}
