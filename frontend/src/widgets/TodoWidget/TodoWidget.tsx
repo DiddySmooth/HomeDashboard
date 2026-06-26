@@ -117,7 +117,7 @@ export function TodoWidget({ widget }: WidgetProps) {
               type="text"
               value={newTitle}
               onChange={(e) => setNewTitle(e.target.value)}
-              onKeyPress={(e) => {
+              onKeyDown={(e) => {
                 if (e.key === "Enter") addTodo();
               }}
               placeholder="Add a new todo..."
